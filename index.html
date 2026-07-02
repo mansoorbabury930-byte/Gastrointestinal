@@ -105,58 +105,33 @@ button{
 <script>
 
 const quizData = [
-/* ================= MCQs (40) ================= */
+/* MCQs + Scenarios */
 {q:"IBS diagnostic criterion?",options:["Bloody diarrhea","Recurrent pain relieved by defecation","Weight loss","Positive biopsy"],answer:1},
 {q:"IBS most common in?",options:["Elderly men","Middle-aged females","Newborns","Adolescents"],answer:1},
 {q:"IBS first line treatment?",options:["Surgery","Antibiotics","Lifestyle modification","Chemotherapy"],answer:2},
 {q:"Appendicitis cause in adults?",options:["Virus","Fecalith","Parasite","Trauma"],answer:1},
 {q:"Initial appendicitis pain?",options:["RLQ","LLQ","Periumbilical","Epigastric"],answer:2},
 {q:"Appendicitis later localizes to?",options:["LUQ","RLQ","LLQ","Epigastric"],answer:1},
-{q:"Rovsing sign?",options:["Hip pain","RLQ pain with LLQ palpation","Urinary pain","Swallow pain"],answer:1},
+{q:"Rovsing sign?",options:["RLQ pain with LLQ palpation","Hip pain","Urinary pain","Swallow pain"],answer:0},
 {q:"Appendicitis treatment?",options:["Colonoscopy","Antibiotics only","Appendectomy","Radiation"],answer:2},
 {q:"True diverticulum contains?",options:["Mucosa only","Mucosa+submucosa","All layers","Muscle only"],answer:2},
 {q:"Meckel diverticulum is?",options:["False","True","Polyp","Fistula"],answer:1},
-{q:"Most diverticula are?",options:["Congenital","True","False","Malignant"],answer:2},
 {q:"Diverticulosis site?",options:["Cecum","Ascending","Sigmoid","Rectum"],answer:2},
-{q:"Diverticulosis complication?",options:["Hemorrhoids","Diverticulitis","Cancer","Volvulus"],answer:1},
 {q:"Diverticulitis pain?",options:["RLQ","LLQ","Chest","RUQ"],answer:1},
-{q:"Pneumaturia means?",options:["Stone","Colovesical fistula","Appendicitis","Pancreatitis"],answer:1},
 {q:"Zenker location?",options:["Stomach","Pharynx-esophagus","Ileum","Colon"],answer:1},
-{q:"Zenker symptom?",options:["Ulcer","Foul breath","IBS","Appendicitis"],answer:1},
 {q:"Meckel cause?",options:["Urachus","Vitelline duct","Bile duct","Pancreas"],answer:1},
 {q:"Rule of 2s?",options:["Hirschsprung","Meckel","IBS","Diverticulitis"],answer:1},
 {q:"Meckel scan?",options:["Colonoscopy","CT","Tc scan","MRI"],answer:2},
-
 {q:"Hirschsprung defect?",options:["Mesoderm","Neural crest","Endoderm","Liver"],answer:1},
-{q:"Hirschsprung mutation?",options:["APC","KRAS","RET","TP53"],answer:2},
 {q:"No meconium?",options:["IBS","Hirschsprung","Appendicitis","Diverticulosis"],answer:1},
-{q:"Diagnosis Hirschsprung?",options:["Colonoscopy","Rectal biopsy","CT","US"],answer:1},
-{q:"Treatment Hirschsprung?",options:["Steroids","Antibiotics","Surgery","Radiation"],answer:2},
-
 {q:"Intussusception age?",options:["Adults","Elderly","Infants","Teen"],answer:2},
-{q:"Intussusception stool?",options:["Melena","Currant jelly","Clay","Watery"],answer:1},
-{q:"Target sign?",options:["Apple core","Coffee bean","Target","Thumbprint"],answer:2},
-{q:"Volvulus is?",options:["Hernia","Telescoping","Twisting","Perforation"],answer:2},
-{q:"Coffee bean sign?",options:["Sigmoid volvulus","Appendicitis","Hirschsprung","IBS"],answer:0},
+{q:"Currant jelly stool?",options:["Melena","Currant jelly","Clay","Watery"],answer:1},
 
-{q:"Mesenteric ischemia?",options:["SMA embolism","IBS","GERD","Crohn"],answer:0},
-{q:"Angiodysplasia site?",options:["Left","Right","Rectum","Ileum"],answer:1},
-{q:"Chronic ischemia?",options:["Vomiting blood","Postprandial pain","Dysphagia","Hematemesis"],answer:1},
-{q:"Ischemic colitis?",options:["Sigmoid","Splenic flexure","Cecum","Ileum"],answer:1},
-{q:"Ileus?",options:["Blockage","No motility","Cancer","Polyp"],answer:1},
-
-{q:"NEC?",options:["Adults","Premature infants","Teens","Elderly"],answer:1},
-{q:"SBO cause?",options:["Adhesions","Crohn","Appendicitis","UC"],answer:0},
-{q:"SIBO deficiency?",options:["C","D","B12","K"],answer:2},
-{q:"Villous adenoma?",options:["None","Low","High","Inflammatory"],answer:2},
-{q:"Hyperplastic?",options:["Cecum","Ascending","Rectosigmoid","Ileum"],answer:2},
-
-/* ================= SCENARIOS (10) ================= */
+/* Scenarios */
 {q:"IBS case scenario",options:["Crohn","UC","IBS","Cancer"],answer:2},
 {q:"Appendicitis scenario",options:["Diverticulitis","Appendicitis","IBS","Cholecystitis"],answer:1},
 {q:"Rovsing sign case",options:["Murphy","Rovsing","Cullen","Grey Turner"],answer:1},
 {q:"Diverticulitis LLQ pain",options:["Diverticulosis","Diverticulitis","Appendicitis","IBS"],answer:1},
-{q:"Painless rectal bleeding elderly",options:["Diverticulosis","Diverticulitis","Cancer","Appendicitis"],answer:0},
 {q:"Zenker symptoms",options:["Achalasia","Cancer","Zenker","GERD"],answer:2},
 {q:"Meckel scan positive",options:["Hirschsprung","Meckel","Intussusception","Volvulus"],answer:1},
 {q:"No meconium newborn",options:["Intussusception","Hirschsprung","Meckel","Appendicitis"],answer:1},
@@ -175,6 +150,12 @@ const tEl = document.getElementById("time");
 const nextBtn = document.getElementById("nextBtn");
 
 function loadQ(){
+
+    if(current >= quizData.length){
+        showResult();
+        return;
+    }
+
     clearInterval(timer);
     time = 35;
     tEl.textContent = time;
@@ -195,7 +176,11 @@ function loadQ(){
     timer = setInterval(()=>{
         time--;
         tEl.textContent = time;
-        if(time<=0) next();
+
+        if(time <= 0){
+            clearInterval(timer);
+            next();
+        }
     },1000);
 }
 
@@ -204,20 +189,20 @@ function select(i){
     let opts = document.querySelectorAll(".option");
 
     opts.forEach((o,idx)=>{
-        o.onclick=null;
-        if(idx===correct) o.classList.add("correct");
-        if(idx===i && i!==correct) o.classList.add("wrong");
+        o.onclick = null;
+        if(idx === correct) o.classList.add("correct");
+        if(idx === i && i !== correct) o.classList.add("wrong");
     });
 
-    if(i===correct) score++;
-    nextBtn.style.display="block";
+    if(i === correct) score++;
+
+    nextBtn.style.display = "block";
     clearInterval(timer);
 }
 
 function next(){
     current++;
-    if(current<quizData.length) loadQ();
-    else showResult();
+    loadQ();
 }
 
 function showResult(){
@@ -225,7 +210,7 @@ function showResult(){
     <div class="result">
         Quiz Completed<br><br>
         Score: ${score}/${quizData.length}<br><br>
-        ${score>25 ? "PASS 🎉" : "FAIL ❌"}
+        ${score > 20 ? "PASS 🎉" : "FAIL ❌"}
     </div>`;
 }
 
